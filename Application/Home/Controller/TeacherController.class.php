@@ -250,6 +250,7 @@ class TeacherController extends Controller
           $data = array();
           $data['student_id']=$value;
           $data['student_name']=$result_student["student_name"];
+          $data['status'] = 0;
           array_push($datas,$data);
       }
       return $datas;

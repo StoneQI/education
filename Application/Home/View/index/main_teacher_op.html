@@ -139,10 +139,21 @@
             })
             .done(function(data) {
                 if (data.code=='200') {
-                    var html="";
+                    var htmls="";
+                    var html = "";
                     var data=data.data;
                     for (var i = 0; i < data.length; i++) {
-                        html =html+'<label class="checkbox inline"> <input type="checkbox" name="student_id" value="'+data[i].student_id+'"> '+data[i].student_name+'</label>'
+
+
+                        html = '<input type="hint" name="student_id" value="'+data[i].student_id+'"> '+data[i].student_name;
+                        html = html + '<div class="btn-group"> <button class="btn">请假</button> <button class="btn">缺课</button> </div>'
+                        html ='<label class="checkbox inline"> '+ html+'</label>';
+                        htmls = html+htmls;
+
+
+
+
+//                                '<input type="checkbox" name="student_id" value="'+data[i].student_id+'"> '+data[i].student_name+'</label>'
                     }
                      $('#myModal').modal('show');
                      $('#student_list').html(html);
@@ -195,7 +206,7 @@
                         html=html+'<td>'+data[i].teacher_name+'</td><td>'+status[data[i].status]+'</td></tr>';
                     }else{
                         html=html+'<td>'+'未签到'+'</td><td>';
-                        html=html+'<div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> 签到 <span class="caret"></span> </a> <ul class="dropdown-menu"> <li onClick="app.absentSign.click('+data[i].schedule_id+','+data[i].items_id+',2)"><a href="#">录入缺课人员</a></li> <li onClick="app.sign('+data[i].schedule_id+','+data[i].items_id+',1)"><a href="#">无缺课人员</a></li> <li onClick="app.sign('+data[i].schedule_id+','+data[i].items_id+',0)"><a href="#">取消课程</a></li> </ul> </div>';
+                        html=html+'<div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> 签到 <span class="caret"></span> </a> <ul class="dropdown-menu"> <li onClick="app.absentSign.click('+data[i].schedule_id+','+data[i].items_id+',2)"><a href="#">录入缺课\\请假信息</a></li> <li onClick="app.sign('+data[i].schedule_id+','+data[i].items_id+',1)"><a href="#">无缺课人员</a></li> <li onClick="app.sign('+data[i].schedule_id+','+data[i].items_id+',0)"><a href="#">取消课程</a></li> </ul> </div>';
                         html=html+'</td></tr>';
                     }
                 }
