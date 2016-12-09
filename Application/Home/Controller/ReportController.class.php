@@ -24,9 +24,20 @@ class ReportController extends Controller
             exit();
         }
     }
+
     public function student_info()
     {
         $this->display('student_info');
+    }
+
+    public function getStudentInfo()
+    {
+        $startTime = I('post.startTime', 'flase');
+        $endTime = I('post.endTime', 'flase');
+        $studentName = I('post.studentName', '0');
+        $status = I('post.status', '0');
+        $reportService = new ReportService();
+        $reportService->getStudentInfo($startTime, $endTime, $studentName, $status);
     }
 
 }

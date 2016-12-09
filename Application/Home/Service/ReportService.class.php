@@ -11,7 +11,8 @@ namespace Home\Service;
 use Think\Model;
 class ReportService extends Model
 {
-    //显示教师管理视图
-
-
+    public function getStudentInfo($startTime, $endTime, $studentName, $status)
+    {
+        
+    }
 }
