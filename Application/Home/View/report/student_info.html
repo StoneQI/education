@@ -7,26 +7,28 @@
     </div>
     <div id="admin_student_tb" style="">
         <div style="">
+
             <table style="width: 890px">
                 <tr>
-                    <td style="width: 450px;text-align: left;">
+                    <td style="width:220px; text-align: right;">
                     <input id="startTime" type="text" class="easyui-datebox" data-options="missingMessage:'请输入开始日期'" placeholder="请输入开始日期"> -</td>
-                    <td>
+                    <td style="width:220px;text-align: left;">
                     <input id="endTime" type="text" class="easyui-datebox" data-options="missingMessage:'请输入结束日期'" placeholder="请输入结束日期">
                     </td>
 
-                    <td>
-                    <input class="easyui-validatebox" type="text" name="name" data-options="missingMessage:'请输入查询学生姓名'" placeholder="请输入查询学生姓名"/>
+                    <td style=" width:150px;padding-left: 20px;">
+                    <input id="name" class="easyui-validatebox" type="text" name="name" data-options="missingMessage:'请输入查询学生姓名'" placeholder="请输入查询学生姓名"/>
                     </td>
-                    <td>
-                        <select id="cc" class="easyui-combobox" name="dept" style="width:200px;">
-                            <option value="aa">请选择</option>
-                            <option>缺课</option>
-                            <option>请假</option>
+                    <td style="width:100px;padding-left: 20px;">
+                        <select id="status" class="" name="dept">
+                            <option value="0">请选择</option>
+                            <option value="1">缺课</option>
+                            <option value="2">请假</option>
+                            <option value="3">请假和缺课</option>
                         </select>
                     </td>
                     </td>
-                    <td style="width: 450px;text-align: right;">
+                    <td style="text-align: right;padding-left: 20px;">
                         <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="obj_admin_student.search();">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
 
@@ -40,16 +42,28 @@ $(function() {
 
     obj_admin_student = {
         editRow: undefined,
+        getQueryData:function () {
+            var startTime = $('#startTime').datebox('getValue');
+            var endTime = $('#endTime').datebox('getValue');
+            var name = $('#name').val();
+            var status = $('#status').find("option:selected").val();
+            console.log(startTime+endTime+name+status);
+            console.log($('#status').find("option:selected"));
+        },
         search: function() {
+            this.getQueryData();
             $('#admin_student_box').datagrid('load', {
-                student_name: $.trim($('input[name="student_name"]').val()),
+                startTime: $('#startTime').datebox('getValue'),
+                endTime : $('#endTime').datebox('getValue'),
+                name : $('#name').val(),
+                status : $('#status').find("option:selected").val(),
             });
         }
     };
 
     $('#admin_student_box').datagrid({
             width: 900,
-            url: '{:U("Report/getstudent")}',
+            url: '{:U("Report/getStudentInfo")}',
             // url : 'user.php',
             method: "post",
             title: '<center>学生列表</center>',
@@ -68,34 +82,33 @@ $(function() {
                     }, {
                         field: 'student_sex',
                         title: '性别',
-
                         width: 50,
-
-
                     },
-                 {
-                    field: 'student_birthday',
-                    title: '出生日期',
+                    {
+                        field: 'teacher_name',
+                        title: '签到老师',
+                        sortable: true,
+                        width: 150,
+                    },
+                    {
+                        field: 'sign_info_status',
+                        title: '状态',
+                        sortable: true,
+                        width: 150,
+                        formatter : function (value,row,index) {
+                            var status = ['缺课','请假'];
+                            return status[value];
 
-                    width: 100,
-                }, {
-                    field: 'student_tel',
-                    title: '电话号码',
+                        }
+                    },
+                    {
+                        field: 'sign_date',
+                        title: '签到时间',
+                        sortable: true,
+                        width: 150,
+                    },
 
-                    width: 100,
-                }, {
-                    field: 'student_remark',
-                    title: '备注',
 
-                    width: 100,
-
-                }, {
-                    field: 'student_id',
-                    title: 'aa',
-                    hidden: 'true',
-                    width: 0
-
-                },
             ]],
         toolbar: '#admin_student_tb',
         pagination: true,

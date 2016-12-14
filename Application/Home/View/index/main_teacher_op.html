@@ -3,11 +3,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>智能培训考勤管理系统</title>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./skin/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="./skin/css/bootstrap.min.css">
      <link rel="stylesheet" href="./skin/css/sco.message.css">
-    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="./skin/js/jquery.min.js"></script>
+    <script src="./skin/js/bootstrap.min.js"></script>
     <script src="./skin/js/sco.message.js"></script>
 </head>
 <style>
@@ -99,14 +99,14 @@
     app.date = {};
     app.week="";
     app.day="";
-
-    app.sign=function (schedule_id,items_id,status,student_ids) {
+    app.student_info = [];//student_id,student_name,staus(0为到课，1为缺课，2为请假)
+    app.sign=function (schedule_id,items_id,status) {
         var student_ids=student_ids||null;
         $.ajax({
             url: "<?php echo SRC_PATH ?>/index.php/home/teacher/sign",
             type: 'POST',
             dataType: 'json',
-            data: {"schedule_id":schedule_id,"status":status,"items_id":items_id,"date":app.day,"student_ids":student_ids},
+            data: {"schedule_id":schedule_id,"status":status,"items_id":items_id,"date":app.day,"student_ids":app.student_info},
         })
         .done(function(data) {
             if (data.code == '200') {
@@ -139,31 +139,23 @@
             })
             .done(function(data) {
                 if (data.code=='200') {
-                    var htmls="";
                     var html = "";
-                    var data=data.data;
-                    for (var i = 0; i < data.length; i++) {
+                    app.student_info=data.data;
 
-
-                        html = '<input type="hint" name="student_id" value="'+data[i].student_id+'"> '+data[i].student_name;
-                        html = html + '<div class="btn-group"> <button class="btn">请假</button> <button class="btn">缺课</button> </div>'
-                        html ='<label class="checkbox inline"> '+ html+'</label>';
-                        htmls = html+htmls;
-
-
-
-
-//                                '<input type="checkbox" name="student_id" value="'+data[i].student_id+'"> '+data[i].student_name+'</label>'
+                    for (var i = 0, len = app.student_info.length; i < len; i++) {
+                          html = html+'<td>'+ app.student_info[i].student_name+ '</td><td>&nbsp; <label class="radio inline"> <input type="radio" name = "optionsRadios'+i+'" onclick="app.absentSign.setLeave('+ i +')"> 请假</label ><label class = "radio inline"> <input type = "radio" name = "optionsRadios'+i+'" onclick="app.absentSign.setAbsent('+ i+')" >缺席 </label>'+'</td>';
+                        if (i%2 !=0) {
+                            html = '<tr>'+html+'</tr>';
+                        }
                     }
+                    html = '<table class="table table-bordered"><thead><tr><th>学生名字</th><th>操作</th><th>学生名字</th><th>操作</th></tr></thead><tbody>'+html+'</tbody></table>'
+
                      $('#myModal').modal('show');
                      $('#student_list').html(html);
 
                 }else{
                     $.scojs_message("获取学生信息失败，请重试!", $.scojs_message.TYPE_ERROR);
                 }
-
-
-
             })
             .fail(function() {
                $.scojs_message("获取学生信息失败，请重试!", $.scojs_message.TYPE_ERROR);
@@ -173,11 +165,14 @@
         },
         sublime:function(){
             var student_ids=new Array();
-            $('input[name="student_id"]:checked').each(function(){
-                student_ids.push($(this).val());//向数组中添加元素
-            });
-            app.sign(this.schedule_id,this.items_id,this.status,student_ids);
+            app.sign(this.schedule_id,this.items_id,this.status);
             $('#myModal').modal('hide');
+        },
+        setLeave:function (select_id) {
+            app.student_info[select_id].status =1
+        },
+        setAbsent:function (select_id) {
+            app.student_info[select_id].status =2
         }
 
     };
@@ -195,9 +190,8 @@
         .done(function(data) {
             if (data.code == '200') {
                 var html="";
-                var sign = '<div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> 签到 <span class="caret"></span> </a> <ul class="dropdown-menu"> <li><a href="">录入缺课人员</a></li> <li><a href="">无缺课人员</a></li> <li><a href="">取消课程</a></li> </ul> </div>'
                 var data = data.data;
-                var status=['取消课程','无缺课人员','已录入缺课人员']
+                var status=['取消课程','无缺课人员','已录入缺课\\请假人员'];
                 for (var i = 0; i < data.length;i++) {
 
 
@@ -265,6 +259,7 @@
             $.scojs_message("请求失败，请重试!", $.scojs_message.TYPE_ERROR);
         });
     };
+
     app.getWeek();
 
 
