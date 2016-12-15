@@ -101,11 +101,69 @@ split:false,noheader:true" style="height:65px;background:#fff;;">
 
     <div id="tabs" >
         <div iconCls="icon-house"  title="主控台" style="padding:0 10px;display:block;"  href="">
-
+            <table id="admin_admin_box" style="width: 500px;padding-top:10px;"></table>
         </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(function() {
 
+        $('#admin_admin_box').datagrid({
+            width: 900,
+            url: '{:U("Main/getWarringStudent")}',
+            // url : 'user.php',
+            method: "post",
+            title: '<center>警告信息</center>',
+            iconCls: 'icon-search',
+            striped: true,
+            nowrap: true,
+            rownumbers: true,
+            //singleSelect : true,
+            fitColumns: true,
+            columns: [
+                [
+                    {
+                        field: 'items_name',
+                        title: '课程名字',
+                        sortable: true,
+                        width: 50,
+                    },
+                    {
+                    field: 'student_name',
+                    title: '学生姓名',
+                    sortable: true,
+                    width: 50,
+                }, {
+                    field: 'student_sex',
+                    title: '性别',
+                    width: 25,
+                },
+                    {
+                        field: 'remain_times',
+                        title: '剩余次数',
+                        sortable: true,
+                        width: 25,
+                    },
+                    {
+                        field: 'student_tel',
+                        title: '联系方式',
+                        sortable: true,
+                        width: 100,
+                    },
+
+
+                ]],
+            toolbar: '#admin_student_tb',
+            pagination: true,
+            pageSize: 10,
+            pageList: [10, 20, 30],
+            pageNumber: 1,
+            sortName: 'student_name',
+            sortOrder: 'DESC',
+        });
+
+    });
+    </script>
 </body>
 </html>

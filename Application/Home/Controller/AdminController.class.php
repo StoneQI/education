@@ -232,8 +232,8 @@ class AdminController extends Controller
         $pagesize = I('post.rows');
         $sort = I('post.sort');
         $order = I('post.order');
-        if (isset($_POST['course_id']) && !empty($_POST['course_id'])) {
-            $condition['course_id'] = array('like', '%'.I('post.course_id').'%'); //姓名或学号搜索
+        if (isset($_POST['student_name']) && !empty($_POST['student_name'])) {
+            $condition['student_name'] = array('like', '%'.I(post.student_name).'%'); //姓名或学号搜索
         }
         $course = M('course');
         $items = M('items');

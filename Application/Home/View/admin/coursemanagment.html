@@ -12,6 +12,11 @@
         <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" style="display:none;" id="save" onclick="obj_admin_coursemanagment.save();">保存</a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" style="display:none;" id="redo" onclick="obj_admin_coursemanagment.redo();">取消编辑</a>
             </td>
+                <td style="width: 450px;text-align: right;">
+                    查询姓名：<input type="text" class="textbox" name="student_name" style="width:110px">
+
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="obj_admin_payinfo.search();">查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
             </tr> </table>
     </div>
 </div></div>
@@ -22,7 +27,7 @@ $(function () {
         editRow : undefined,
         search : function () {
             $('#admin_coursemanagment_box').datagrid('load', {
-                course_id : $.trim($('input[name="course_id"]').val()),
+                student_name : $.trim($('input[name="student_name"]').val()),
             });
         },
         add : function () {
