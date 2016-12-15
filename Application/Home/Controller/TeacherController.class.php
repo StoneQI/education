@@ -9,6 +9,8 @@
 namespace Home\Controller;
 
 use Think\Controller;
+use Home\Service\TeacherService;
+
 
 class TeacherController extends Controller
 {
@@ -120,7 +122,6 @@ class TeacherController extends Controller
                 }
             }
         }
-
         //通过teacher_id取课程教师的名字
         $teacher = M("teacher");
         $teacher_name = array(); //存储老师的名字
@@ -139,7 +140,7 @@ class TeacherController extends Controller
             $data[$key]['items'] = $items_name[$key];
             $data[$key]['items_id'] = $schedule_items_id[$key];
             foreach ($sign_schedule_id as $add_key => $add_value) {
-//通过存储状态表对应的schedule_id添加状态
+          //通过存储状态表对应的schedule_id添加状态
                 if ($add_value == $data[$key]['schedule_id']) {
                     $data[$key]['status'] = $status[$key];
                     $data[$key]['teacher_name'] = $teacher_name[$key];
@@ -160,59 +161,22 @@ class TeacherController extends Controller
 
     public function sign()
     {
-        $schedule_id = I('post.schedule_id');
-        $status = I('post.status');
-        $date = I('post.date');
-        $student_id = I('post.student_ids');
-        $items_id = I('post.items_id');
-        if ($status == 2) {
-            $this->signAbsent($schedule_id, $items_id, $date, $status, $student_id);
-        } else {
-            $this->signNoAbsent($schedule_id, $items_id, $date, $status);
-        }
-    }
-    //当sign为0和1的情况下
-    private function signNoAbsent($schedule_id, $items_id, $date, $status, $student_id="")
-    {
-        //添加课表
-        $code='200';
-        $message="";
-        $sign = M("Sign");
-        $data["schedule_id"] = $schedule_id;
-        $data["status"] = $status;
-        // 时间自动生成
-        // 签到老师用session值
-        $data["date"] = $date;
-        $data["teacher_id"] = session('teacher_id');
-        $datas = $this->getStudent($items_id);
-        $course = M('course');
-        foreach ($datas as $key=>$value) {
-          $id = $value['student_id'];
-          $course->where('course_student_id='.$id)->setDec('remain_times');
-        }
+      //测试数据
+         $schedule_id = I(post.schedule_id);
+          $status =I(post.status);
+         $date =I(post.date);
+         $items_id =I(post.items_id);
+          $student_id  =I(post.student_id);
 
-        $result = $sign->add($data);
-        if (!$result) {
-            $code = 400;
-            $message="签到失败";
-        }
-        $result = $this->toJson($code, $message, $data);
-        echo "$result";
+        $teacherService = new TeacherService();
 
-    }
-    //当sign为2的情况下
-    private function signAbsent($schedule_id, $items_id, $date,$status, $student_id)
-    {
-        $code='200';
-        $message="";
-        $absent = M("absent");
-        foreach ($student_id as $key=>$value) {
-          $data["schedule_id"] = $schedule_id;
-          $data["student_id"] = $value;
-          $result = $absent->add($data);
-        }
-        $this->signNoAbsent($schedule_id, $items_id, $date, $status, $student_id);
-        //然后在添加absent表就行了
+       $result = $teacherService->sign($schedule_id,$status, $date,$items_id,$student_id);
+       if($result){
+         $result_end = $this->toJson(200, "");
+         echo "$result_end";
+       }
+
+
     }
 
     public function allstudent()
@@ -256,5 +220,6 @@ class TeacherController extends Controller
       return $datas;
 
     }
+
 
 }

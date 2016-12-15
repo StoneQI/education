@@ -8,12 +8,15 @@
 
 namespace Home\Service;
 
+<<<<<<< HEAD
 use Think\Model;
 
 /**
  * 为 ReportController 提供服务
  * @package Home\Service
  */
+=======
+>>>>>>> xuzheng/dev
 class ReportService
 {
 
@@ -91,4 +94,21 @@ class ReportService
         return $this;
     }
 
+
+        //显示course表中remain_times中少于5的数据并返回
+        public function getCourse(){
+            echo "hasasaasjk";
+           $course = M("Course");
+           $select = $course ->select();
+           var_dump($select);
+        }
+
+        //测试使用函数
+        public function test(){
+            echo "我是测试";
+        }
 }
+
+
+
+

@@ -1,5 +1,5 @@
-﻿# Host: localhost  (Version: 5.5.47-log)
-# Date: 2016-11-20 20:20:41
+﻿# Host: localhost  (Version: 5.5.53)
+# Date: 2016-12-09 19:16:23
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -24,23 +24,42 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` VALUES (1,'323232','323232',NULL);
 
 #
+# Structure for table "check"
+#
+
+DROP TABLE IF EXISTS `check`;
+CREATE TABLE `check` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `schedule_id` varchar(255) DEFAULT NULL,
+  `student_id` varchar(255) DEFAULT NULL,
+  `status` int(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "check"
+#
+
+
+#
 # Structure for table "course"
 #
 
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
-  `course_id` int(11) NOT NULL COMMENT 'course字段',
+  `course_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'course字段',
   `course_student_id` int(11) NOT NULL,
   `course_item_id` int(11) NOT NULL,
   `remain_times` int(11) NOT NULL COMMENT '剩余的次数',
   `course_datetime` datetime NOT NULL,
   PRIMARY KEY (`course_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "course"
 #
 
+INSERT INTO `course` VALUES (14,2,71,15,'2016-11-29 19:53:46'),(15,2,70,14,'2016-11-29 20:25:23'),(16,2,70,14,'2016-11-29 20:25:34');
 
 #
 # Structure for table "items"
@@ -55,13 +74,13 @@ CREATE TABLE `items` (
   `items_total_price` double NOT NULL DEFAULT '0',
   `items_teacher_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`items_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "items"
 #
 
-INSERT INTO `items` VALUES (27,'啊飒飒',22,22,0,2),(30,'发的发的',55,55,0,5),(31,'热尔',6623,66,0,7),(32,'突然突然',111,11,0,7),(34,'嘿嘿',212,211,0,1),(39,'12121',2121,212121,0,7),(66,'但是',21,12,0,5),(68,'我QQ无',21,34,0,5),(69,'1221',2121,2323,0,5);
+INSERT INTO `items` VALUES (70,'语文',20,12,0,8),(71,'数学',21,12,0,8),(72,'外语',26,13,0,8);
 
 #
 # Structure for table "pay"
@@ -69,7 +88,7 @@ INSERT INTO `items` VALUES (27,'啊飒飒',22,22,0,2),(30,'发的发的',55,55,0
 
 DROP TABLE IF EXISTS `pay`;
 CREATE TABLE `pay` (
-  `pay_id` int(11) NOT NULL,
+  `pay_id` int(11) NOT NULL AUTO_INCREMENT,
   `pay_student_id` int(11) NOT NULL,
   `pay_course_name` varchar(255) DEFAULT NULL COMMENT '所有课程信息名',
   `pay_payable` int(11) NOT NULL COMMENT '应缴费用',
@@ -77,12 +96,13 @@ CREATE TABLE `pay` (
   `pay_total` int(11) NOT NULL COMMENT '总缴费',
   `pay_datetime` datetime NOT NULL,
   PRIMARY KEY (`pay_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "pay"
 #
 
+INSERT INTO `pay` VALUES (1,2,'嘿嘿,发的发的,但是',48009,0,48009,'2016-11-29 19:36:29'),(2,2,'啊飒飒,发的发的,但是',3761,0,3761,'2016-11-29 19:38:22'),(3,1,'发的发的,嘿嘿',47757,0,47757,'2016-11-29 19:38:28'),(4,2,'发的发的',3025,0,3025,'2016-11-29 19:38:35'),(5,2,'数学',252,0,252,'2016-11-29 19:53:46'),(6,2,'语文',240,0,240,'2016-11-29 20:25:23'),(7,2,'语文',240,0,240,'2016-11-29 20:25:35');
 
 #
 # Structure for table "schedule"
@@ -96,13 +116,33 @@ CREATE TABLE `schedule` (
   `schedule_items_id` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`schedule_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "schedule"
 #
 
-INSERT INTO `schedule` VALUES (179,'7','12:00','68',NULL),(181,'4','04:00','27',NULL),(187,'4','04:00','66',NULL),(195,'2','21:00','31',NULL),(202,'4','19:00','34',NULL),(204,'4','19:00','69',NULL),(207,'5','21:01','31',NULL),(214,'5','21:01','27',NULL),(215,'5','21:01','30',NULL),(217,'5','21:01','27',NULL),(221,'5','21:01','30',NULL),(226,'1','22:00','27',NULL),(232,'1','20:00','27',NULL),(237,'1','20:00','39',NULL),(238,'2','23:00','27',NULL),(239,'1','22:00','30',NULL),(244,'2','23:00','31',NULL),(246,'3','22:00','27',NULL),(247,'3','22:00','30',NULL),(252,'1','23:00','30',NULL),(253,'1','23:00','32',NULL),(254,'3','23:00','27',NULL),(255,'3','23:00','30',NULL),(256,'3','22:00','31',NULL),(257,'3','22:00','31',NULL),(258,'3','22:00','31',NULL),(259,'3','22:00','31',NULL),(260,'3','22:00','31',NULL),(261,'3','22:00','32',NULL),(262,'1','21:00','30',NULL),(263,'1','21:00','31',NULL),(264,'1','21:00','32',NULL),(265,'1','02:00','30',NULL),(266,'1','02:00','31',NULL),(267,'2','22:00','27',NULL),(268,'2','22:00','30',NULL),(269,'2','22:00','32',NULL),(270,'1','21:00','27',NULL),(271,'2','23:00','31',NULL),(272,'2','23:00','32',NULL),(273,'2','23:00','39',NULL),(276,'6','22:00','31',NULL),(277,'2','11:00','27',NULL);
+INSERT INTO `schedule` VALUES (334,'1','02:00','70',NULL),(335,'1','02:00','71',NULL);
+
+#
+# Structure for table "sign"
+#
+
+DROP TABLE IF EXISTS `sign`;
+CREATE TABLE `sign` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `schedule_id` int(11) NOT NULL DEFAULT '0',
+  `date` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `teacher_id` int(11) DEFAULT '0',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "sign"
+#
+
+INSERT INTO `sign` VALUES (3,334,'2016年11月29日',0,8),(4,335,'2016年11月29日',1,8);
 
 #
 # Structure for table "student"
@@ -117,13 +157,13 @@ CREATE TABLE `student` (
   `student_tel` varchar(255) DEFAULT NULL,
   `student_remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "student"
 #
 
-INSERT INTO `student` VALUES (1,'1212','男','2016-11-10','','');
+INSERT INTO `student` VALUES (1,'1212','男','2016-11-10','',''),(2,'22','2','22','2','2');
 
 #
 # Structure for table "teacher"
@@ -145,10 +185,10 @@ CREATE TABLE `teacher` (
   `selected` varchar(255) DEFAULT 'false',
   `extend` varchar(255) NOT NULL DEFAULT '0',
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "teacher"
 #
 
-INSERT INTO `teacher` VALUES (1,'1123','山东省','1212','1221','12',NULL,NULL,NULL,NULL,NULL,'false','0'),(2,'2121','颠三倒四','322','32','212',NULL,NULL,NULL,NULL,NULL,'false','0'),(3,'2323','实打实的','343','5454','545',NULL,NULL,NULL,NULL,NULL,'false','0'),(4,'5454','说的','656','7667','343',NULL,NULL,NULL,NULL,NULL,'false','0'),(5,'33','发的3','343','4334','343434',NULL,NULL,NULL,NULL,NULL,'false','0'),(6,'5454','到底','23','23','23',NULL,NULL,NULL,NULL,NULL,'false','0'),(7,NULL,'请选择----',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ture','1');
+INSERT INTO `teacher` VALUES (7,NULL,'请选择----',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ture','1'),(8,'admin','admin','admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'false','0');

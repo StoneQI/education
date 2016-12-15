@@ -11,6 +11,7 @@ namespace Home\Controller;
 use Think\Controller;
 use Home\Service\MainService;
 
+
 class MainController extends Controller
 {
     //显示教师管理视图
