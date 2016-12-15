@@ -256,4 +256,5 @@ class TeacherController extends Controller
       return $datas;
 
     }
+
 }
